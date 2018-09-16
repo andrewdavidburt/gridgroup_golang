@@ -1,1 +1,1 @@
-group horizontally/vertically/diagonally adjacent filled grid spaces
+group horizontally/vertically/diagonally adjacent filled grid spaces recursively
