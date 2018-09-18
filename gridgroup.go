@@ -28,103 +28,72 @@ type Coord struct {
 	X, Y int
 }
 
-type Group struct {
-	Coords []Coord
-}
+//type Group struct {
+//	Coords []Coord
+//}
 
 //type Collection struct {
-////	Number int
 //	Grouping []Group
 //}
 
-// eliminate global variables later
-//var group_temp []int
-var group_new_temp Group
-//var collection_temp Collection
-var allgroups []Group = 
-
-func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int, group Group) ([][]bool, Group) {
+func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int, group_3 [][]int) ([][]bool, [][]int) {
 
 	if grid[x][y] == true {
 		grid[x][y] = false
-//		fmt.Println("==============")
 		xy_temp := Coord{X: x, Y: y}
 		fmt.Println("GROUP:", count, "ELEMENT:", xy_temp)
-		group_new_temp.Coords = append(group_new_temp.Coords, xy_temp)	//[]Coord{xy_temp}
-		//fmt.Println("grnew_temp", group_new_temp)
-		//group_temp = append(group_temp, count, x, y)
-		group.Coords = append(group.Coords, xy_temp)
+		//group_new_temp.Coords = append(group_new_temp.Coords, xy_temp)	//[]Coord{xy_temp}
 
-		fmt.Println("allgroups", allgroups)
-		//allgroups[count].Coords = xy_temp
-		allgroups[count].Coords = append(allgroups[count].Coords, xy_temp)
-
-//		fmt.Println("appending", xy_temp, "to group.Coords:", group.Coords, "of group", group)
-//		fmt.Println("==============")
+		group_3[count] = append(group_3[count], x, y)
 		
-//remove count in flood fill algo later
-//if using globals, remove group passing in flood fill algo later
-
 	if (x > 0) &&		(y > 0) 	{	//NW
-						FloodFillAlgo(grid, width, height, x-1, y-1, count, group)}
+						FloodFillAlgo(grid, width, height, x-1, y-1, count, group_3)}
 	if 			(y > 0) 	{	//N
-						FloodFillAlgo(grid, width, height, x, y-1, count, group)}
+						FloodFillAlgo(grid, width, height, x, y-1, count, group_3)}
 	if (x < width-1) &&	(y > 0) 	{	//NE)
-						FloodFillAlgo(grid, width, height, x+1, y-1, count, group)}
+						FloodFillAlgo(grid, width, height, x+1, y-1, count, group_3)}
 
 	if (x > 0)				{	//W
-						FloodFillAlgo(grid, width, height, x-1, y, count, group)}
+						FloodFillAlgo(grid, width, height, x-1, y, count, group_3)}
 	if (x < width-1)			{	//E
-						FloodFillAlgo(grid, width, height, x+1, y, count, group)}
+						FloodFillAlgo(grid, width, height, x+1, y, count, group_3)}
 
 	if (x > 0) && 		(y < height-1) 	{	//SW
-						FloodFillAlgo(grid, width, height, x-1, y+1, count, group)}
+						FloodFillAlgo(grid, width, height, x-1, y+1, count, group_3)}
 	if 			(y < height-1)	{	//S
-						FloodFillAlgo(grid, width, height, x, y+1, count, group)}
+						FloodFillAlgo(grid, width, height, x, y+1, count, group_3)}
 	if (x < width-1) &&	(y < height-1)	{	//SE
-						FloodFillAlgo(grid, width, height, x+1, y+1, count, group)}
+						FloodFillAlgo(grid, width, height, x+1, y+1, count, group_3)}
 
         } else {
-                return grid, group
+                return grid, group_3
         }
 
-//when does this return get called?
-	return grid, group
+	return grid, group_3
 }
 
-func DefineGroups(grid [][]bool) (int) {
+func DefineGroups(grid [][]bool, group_3 [][]int) (int, [][]int) {
 	var count int = 0
 	var width = 4		//len(grid)
 	var height = 4		//len(grid[0])
-	//fmt.Println("len", len(grid))
-	var groupvar []Group
-	var group Group
 
 	for x := 0; x < width; x++ {
 		for y := 0; y < height; y++ {
 			if grid[x][y] == true {
-				grid, group = FloodFillAlgo(grid, width, height, x, y, count, group)
+				grid, group_3 = FloodFillAlgo(grid, width, height, x, y, count, group_3)
 				count = count + 1
-				//fmt.Println("New count:", count)
-				//fmt.Println("group_new_temp:", group_new_temp)
-				//fmt.Println("group", group)
-				groupvar = append(groupvar, group)
-				//fmt.Println("groupvar", groupvar)
 			}
 		}
 	}
 
-	return count
+	return count, group_3
 }
 
 func main() {
 	var grid [][]bool = DefineGrid()
-//	allgroups := make([]Group, 1)
-	//fmt.Println("Grid:", grid)
+	group_3 := make([][]int, 5)
 	var groupct int
-	groupct = DefineGroups(grid)
-	//fmt.Println("FINAL RESULTS")
+	groupct, group_3 = DefineGroups(grid, group_3)
+	fmt.Println("output group_3", group_3)
 	fmt.Println("Group Count:", groupct)
-	//fmt.Println(group_temp)
-	//fmt.Println(group_new_temp)
 }
