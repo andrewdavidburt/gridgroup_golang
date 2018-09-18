@@ -54,46 +54,28 @@ func Test_FloodFillAlgo(t *testing.T) {
 	var count int = 0
 	var width = 4
 	var height = 4
-	var group Group
+	group := make([][]int, 5)
 
-//	var comparison_group Group
-//	comparison_group.Coords = append(comparison_group.Coords, Coord{X: 0, Y: 0})
-//	comparison_group.Coords = append(comparison_group.Coords, Coord{X: 0, Y: 2})
-//	comparison_group.Coords = append(comparison_group.Coords, Coord{X: 1, Y: 2})
-//	comparison_group.Coords = append(comparison_group.Coords, Coord{X: 2, Y: 1})
-//	comparison_group.Coords = append(comparison_group.Coords, Coord{X: 3, Y: 0})
-//	comparison_group.Coords = append(comparison_group.Coords, Coord{X: 3, Y: 1})
-//	comparison_group.Coords = append(comparison_group.Coords, Coord{X: 0, Y: 3})
-
-         for x := 0; x < width; x++ {
-                 for y := 0; y < height; y++ {
-                         if grid[x][y] == true {
+        for x := 0; x < width; x++ {
+             for y := 0; y < height; y++ {
+                     if grid[x][y] == true {
 			     grid, group = FloodFillAlgo(grid, width, height, x, y, count, group)
 			     count = count + 1
-	   		     //fmt.Println("grid", grid)
-			     //fmt.Println("count", count)
-		 	 }
+	        	 }
 	  	 }
 	}
         if count != 2 {
 	    t.Error("Expected group count 2, got:", count)
         }
 
-//	fmt.Println("group new temp", group_new_temp)
-//	for i:=0; i < len(group_new_temp); i++ {
-//                for n, vv:= range v {
-//                        if vv != comparison_group[i][n] {
-//                                t.Error("Expected:", comparison_group[i][n], "got:", vv)
-//                        }
-//                }
-//        }
-
 }
 
 func Test_DefineGroups(t *testing.T) {
 	var grid [][]bool = DefineGrid()
 	var groupct int
-	groupct = DefineGroups(grid)
+	group := make([][]int, 5)
+
+	groupct, group = DefineGroups(grid, group)
 	if groupct != 2 {
 		t.Error("Expected group count 2, got:", groupct)
 	}
