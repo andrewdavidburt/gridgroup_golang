@@ -42,8 +42,6 @@ func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int
 		grid[x][y] = false
 		xy_temp := Coord{X: x, Y: y}
 		fmt.Println("GROUP:", count, "ELEMENT:", xy_temp)
-		//group_new_temp.Coords = append(group_new_temp.Coords, xy_temp)	//[]Coord{xy_temp}
-
 		group_3[count] = append(group_3[count], x, y)
 		
 	if (x > 0) &&		(y > 0) 	{	//NW
