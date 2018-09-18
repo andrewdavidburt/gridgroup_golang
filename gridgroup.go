@@ -24,9 +24,9 @@ func DefineGrid() [][]bool {
         return grid
 }
 
-type Coord struct {
-	X, Y int
-}
+//type Coord struct {
+//	X, Y int
+//}
 
 //type Group struct {
 //	Coords []Coord
@@ -36,13 +36,15 @@ type Coord struct {
 //	Grouping []Group
 //}
 
-func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int, group [][]int) ([][]bool, [][]int) {
+func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int, group [][][]int) ([][]bool, [][][]int) {
 
 	if grid[x][y] == true {
 		grid[x][y] = false
-		xy_temp := Coord{X: x, Y: y}
-		fmt.Println("GROUP:", count, "ELEMENT:", xy_temp)
-		group[count] = append(group[count], x, y)
+//		xy_temp := Coord{X: x, Y: y}
+		xy := []int{x, y}
+//		fmt.Println("GROUP:", count, "ELEMENT:", xy_temp)
+		//group[count] = append(group[count], x, y)
+		group[count] = append(group[count], xy)
 		
 	if (x > 0) &&		(y > 0) 	{	//NW
 						FloodFillAlgo(grid, width, height, x-1, y-1, count, group)}
@@ -70,7 +72,7 @@ func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int
 	return grid, group
 }
 
-func DefineGroups(grid [][]bool, group [][]int) (int, [][]int) {
+func DefineGroups(grid [][]bool, group [][][]int) (int, [][][]int) {
 	var count int = 0
 	var width = 4		//len(grid)
 	var height = 4		//len(grid[0])
@@ -83,13 +85,12 @@ func DefineGroups(grid [][]bool, group [][]int) (int, [][]int) {
 			}
 		}
 	}
-
 	return count, group
 }
 
 func main() {
 	var grid [][]bool = DefineGrid()
-	group := make([][]int, 5)
+	group := make([][][]int, 5)
 	var groupct int
 	groupct, group = DefineGroups(grid, group)
 	fmt.Println("Output Separated Groups in pairs of x y coordinates:", group)
