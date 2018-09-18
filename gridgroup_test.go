@@ -8,28 +8,28 @@ import (
 // the grid definitions are stored in slices of y- (vertical) stripes
 // and are not visual analogs
 
-//TestGrid1 should result in 2 groups
-func DefineTestGrid1() [][]bool {
-     grid := [][]bool{
-             {false, false, false, true},
-             {true, false, true, false},
-             {true, false, false, false},
-             {true, true, false, false},
-             }
-     return grid
-}
+//--not implemented yet-- extra TestGrid1 should result in 2 groups
+//func DefineTestGrid1() [][]bool {
+//     grid := [][]bool{
+//             {false, false, false, true},
+//             {true, false, true, false},
+//             {true, false, false, false},
+//             {true, true, false, false},
+//             }
+//     return grid
+//}
 
 
-//TestGrid2 should result in 3 groups
-func DefineTestGrid2() [][]bool {
-     grid := [][]bool{
-             {true, true, true, true},
-             {false, false, false, true},
-             {true, true, false, false},
-             {true, false, false, true},
-             }
-     return grid
-}
+//--not implemented yet-- extra TestGrid2 should result in 3 groups
+//func DefineTestGrid2() [][]bool {
+//     grid := [][]bool{
+//             {true, true, true, true},
+//             {false, false, false, true},
+//             {true, true, false, false},
+//             {true, false, false, true},
+//             }
+//     return grid
+//}
 
 func Test_DefineGrid(t *testing.T) {
 	var grid [][]bool = DefineGrid()
@@ -68,12 +68,15 @@ func Test_FloodFillAlgo(t *testing.T) {
 	    t.Error("Expected group count 2, got:", count)
         }
 
+//	group results test to be added
+
 }
 
 func Test_DefineGroups(t *testing.T) {
 	var grid [][]bool = DefineGrid()
 	var groupct int
 	group := make([][][]int, 5)
+
 //	var comparison_group [5][][]int
 //	comparison_group[4][0] = []int{1, 2}
 
@@ -82,6 +85,7 @@ func Test_DefineGroups(t *testing.T) {
 		t.Error("Expected group count 2, got:", groupct)
 	}
 
+//	group results test to be added
 //	for i, v:= range group {
 //		for ii, vv:= range v {
 //			for iii, vvv:= range vv {
