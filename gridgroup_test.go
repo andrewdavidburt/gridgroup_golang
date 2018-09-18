@@ -74,9 +74,22 @@ func Test_DefineGroups(t *testing.T) {
 	var grid [][]bool = DefineGrid()
 	var groupct int
 	group := make([][][]int, 5)
-
+//	comparison_group := [5][][]int{1, 2, 3, 4, 5}
+	var comparison_group [5][][]int
+	
 	groupct, group = DefineGroups(grid, group)
 	if groupct != 2 {
 		t.Error("Expected group count 2, got:", groupct)
 	}
+
+//	for i, v:= range group {
+//		for ii, vv:= range v {
+//			for iii, vvv:= range vv {
+//				if vv != comparison_group[i][ii] {
+//					t.Error("Expected:", comparison_group[i][ii], "got:", vv)
+//				}
+//			}
+//		}
+//	}
+
 }

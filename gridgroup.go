@@ -40,10 +40,8 @@ func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int
 
 	if grid[x][y] == true {
 		grid[x][y] = false
-//		xy_temp := Coord{X: x, Y: y}
 		xy := []int{x, y}
-//		fmt.Println("GROUP:", count, "ELEMENT:", xy_temp)
-		//group[count] = append(group[count], x, y)
+		fmt.Println("Running Status: Group:", count, "Element:", x, y)
 		group[count] = append(group[count], xy)
 		
 	if (x > 0) &&		(y > 0) 	{	//NW
@@ -92,7 +90,9 @@ func main() {
 	var grid [][]bool = DefineGrid()
 	group := make([][][]int, 5)
 	var groupct int
+
 	groupct, group = DefineGroups(grid, group)
+	fmt.Println("__________Finished_Results:__________")
 	fmt.Println("Output Separated Groups in pairs of x y coordinates:", group)
 	fmt.Println("Group Count:", groupct)
 }
