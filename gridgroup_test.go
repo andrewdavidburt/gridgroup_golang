@@ -8,29 +8,6 @@ import (
 // the grid definitions are stored in slices of y- (vertical) stripes
 // and are not visual analogs
 
-//--not implemented yet-- extra TestGrid1 should result in 2 groups
-//func DefineTestGrid1() [][]bool {
-//     grid := [][]bool{
-//             {false, false, false, true},
-//             {true, false, true, false},
-//             {true, false, false, false},
-//             {true, true, false, false},
-//             }
-//     return grid
-//}
-
-
-//--not implemented yet-- extra TestGrid2 should result in 3 groups
-//func DefineTestGrid2() [][]bool {
-//     grid := [][]bool{
-//             {true, true, true, true},
-//             {false, false, false, true},
-//             {true, true, false, false},
-//             {true, false, false, true},
-//             }
-//     return grid
-//}
-
 func Test_DefineGrid(t *testing.T) {
 	var grid [][]bool = DefineGrid()
 	var comparison_grid = [][]bool{
