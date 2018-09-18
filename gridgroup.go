@@ -1,4 +1,4 @@
-//grid adjacent+diagonal grouping program using floodfill algorithm
+//grid adjacent+diagonal grouping program using an implementation of floodfill algorithm
 package main
 
 import (
@@ -15,7 +15,8 @@ import (
 //	return grid
 //}
 
-func DefineGrid() [][]bool {			 // swapped x/y in grid
+//grid is written in y/vertical stripes
+func DefineGrid() [][]bool {
         grid := [][]bool{
                 {true, false, true, true},
                 {false, false, true, false},
@@ -33,68 +34,67 @@ type Group struct {
 	Coords []Coord
 }
 
-var group_temp []int
+type Collection struct {
+//	Number int
+	Grouping []Group
+}
+
+// eliminate this global variable
+//var group_temp []int
+var group_new_temp Group
+//var collection_temp Collection
 
 func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int) ([][]bool) {
 
 	if grid[x][y] == true {
-		//fmt.Println("______________")
-		//fmt.Println(grid)
-		//fmt.Println(grid[x][y])	
 		grid[x][y] = false
-		//fmt.Println(grid[x][y])
-		//fmt.Println("ff 1 tf change start:", x, y)
-		//fmt.Println("ff 1 tf change stgrd:", grid)
 		fmt.Println("==============")
-		fmt.Println("GROUP:", count, "ELEMENT:", x, ",", y)
-		group_temp = append(group_temp, count, x, y)
+		xy_temp := Coord{X: x, Y: y}
+		fmt.Println("GROUP:", count, "ELEMENT:", xy_temp)
+		group_new_temp.Coords = append(group_new_temp.Coords, xy_temp)	//[]Coord{xy_temp}
+		//fmt.Println("grnew_temp", group_new_temp)
+		//group_temp = append(group_temp, count, x, y)
 		fmt.Println("==============")
 
-	if (x > 0) &&		(y > 0) 	{//fmt.Println("NW from", x, y, grid[x][y])
+	if (x > 0) &&		(y > 0) 	{	//NW
 						FloodFillAlgo(grid, width, height, x-1, y-1, count)}
-	if 			(y > 0) 	{//fmt.Println("N from ", x, y, grid[x][y])
+	if 			(y > 0) 	{	//N
 						FloodFillAlgo(grid, width, height, x, y-1, count)}
-	if (x < width-1) &&	(y > 0) 	{//fmt.Println("NE from", x, y, grid[x][y])
+	if (x < width-1) &&	(y > 0) 	{	//NE)
 						FloodFillAlgo(grid, width, height, x+1, y-1, count)}
 
-	if (x > 0)				{//fmt.Println("W from", x, y, grid[x][y])
+	if (x > 0)				{	//W
 						FloodFillAlgo(grid, width, height, x-1, y, count)}
-	if (x < width-1)			{//fmt.Println("E from", x, y, grid[x][y])
+	if (x < width-1)			{	//E
 						FloodFillAlgo(grid, width, height, x+1, y, count)}
 
-	if (x > 0) && 		(y < height-1) 	{//fmt.Println("SW from", x, y, grid[x][y])
+	if (x > 0) && 		(y < height-1) 	{	//SW
 						FloodFillAlgo(grid, width, height, x-1, y+1, count)}
-	if 			(y < height-1)	{//fmt.Println("S from", x, y, grid[x][y])
+	if 			(y < height-1)	{	//S
 						FloodFillAlgo(grid, width, height, x, y+1, count)}
-	if (x < width-1) &&	(y < height-1)	{//fmt.Println("SE from", x, y, grid[x][y])
+	if (x < width-1) &&	(y < height-1)	{	//SE
 						FloodFillAlgo(grid, width, height, x+1, y+1, count)}
 
         } else {
-		//fmt.Println("ff 1 returngrid:", x, y, grid)
                 return grid
         }
 
-	//when does this return get called?
-	//fmt.Println("ff 2 ff nochange start:")
-	//fmt.Println("ff 2 returngrid:", x, y, grid)
+//when does this return get called?
 	return grid
 }
 
 func DefineGroups(grid [][]bool) (int) {
 	var count int = 0
-	var width = 4//len(grid)-1
-	var height = 4//len(grid[0])-1
+	var width = 4		//len(grid)-1
+	var height = 4		//len(grid[0])-1
 	
 	for x := 0; x < width; x++ {
-	//fmt.Println("outer x loop", x)
 		for y := 0; y < height; y++ {
-		//fmt.Println("outer y loop", y, "within loop x", x)
 			if grid[x][y] == true {
-				//fmt.Println("outer true:", x, y)
 				grid = FloodFillAlgo(grid, width, height, x, y, count)
 				count = count + 1
 				fmt.Println("New count:", count)
-				//fmt.Println("Grid:", grid)
+				fmt.Println("group_new_temp:", group_new_temp)
 			}
 		}
 	}
@@ -109,5 +109,6 @@ func main() {
 	groupct = DefineGroups(grid)
 	fmt.Println("FINAL RESULTS")
 	fmt.Println("Group Count:", groupct)
-	fmt.Println(group_temp)
+	//fmt.Println(group_temp)
+	fmt.Println(group_new_temp)
 }
