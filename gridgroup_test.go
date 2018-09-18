@@ -54,7 +54,7 @@ func Test_FloodFillAlgo(t *testing.T) {
 	var count int = 0
 	var width = 4
 	var height = 4
-	group := make([][]int, 5)
+	group := make([][][]int, 5)
 
         for x := 0; x < width; x++ {
              for y := 0; y < height; y++ {
@@ -73,7 +73,7 @@ func Test_FloodFillAlgo(t *testing.T) {
 func Test_DefineGroups(t *testing.T) {
 	var grid [][]bool = DefineGrid()
 	var groupct int
-	group := make([][]int, 5)
+	group := make([][][]int, 5)
 
 	groupct, group = DefineGroups(grid, group)
 	if groupct != 2 {
