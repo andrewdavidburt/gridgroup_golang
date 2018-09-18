@@ -5,17 +5,15 @@ import (
 	"fmt"
 )
 
-//func DefineGrid() [][]bool {
-//	grid := [][]bool{
-//		{true, false, false, true},
-//		{false, false, true, true},
-//		{true, true, false, false},
-//		{true, false, false, false},
-//		}
-//	return grid
-//}
+// the grid definition is stored in slices of y- (vertical) stripes
+// and are not visual analogs
+// in this case, it results in the same visual grid as you used:
+// X O O X
+// X O X X
+// X X O O
+// X O O O
+// and should also result in 2 groupings of adjacent tiles
 
-//grid is written in y/vertical stripes
 func DefineGrid() [][]bool {
         grid := [][]bool{
                 {true, false, true, true},
@@ -44,7 +42,7 @@ type Collection struct {
 var group_new_temp Group
 //var collection_temp Collection
 
-func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int) ([][]bool) {
+func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int, group Group) ([][]bool, Group) {
 
 	if grid[x][y] == true {
 		grid[x][y] = false
@@ -54,47 +52,54 @@ func FloodFillAlgo(grid [][]bool, width int, height int, x int, y int, count int
 		group_new_temp.Coords = append(group_new_temp.Coords, xy_temp)	//[]Coord{xy_temp}
 		//fmt.Println("grnew_temp", group_new_temp)
 		//group_temp = append(group_temp, count, x, y)
+		group.Coords = append(group.Coords, xy_temp)
+		fmt.Println("appending", xy_temp, "to group.Coords:", group.Coords, "of group", group)
 		fmt.Println("==============")
-
+//remove count in flood fill algo later
 	if (x > 0) &&		(y > 0) 	{	//NW
-						FloodFillAlgo(grid, width, height, x-1, y-1, count)}
+						FloodFillAlgo(grid, width, height, x-1, y-1, count, group)}
 	if 			(y > 0) 	{	//N
-						FloodFillAlgo(grid, width, height, x, y-1, count)}
+						FloodFillAlgo(grid, width, height, x, y-1, count, group)}
 	if (x < width-1) &&	(y > 0) 	{	//NE)
-						FloodFillAlgo(grid, width, height, x+1, y-1, count)}
+						FloodFillAlgo(grid, width, height, x+1, y-1, count, group)}
 
 	if (x > 0)				{	//W
-						FloodFillAlgo(grid, width, height, x-1, y, count)}
+						FloodFillAlgo(grid, width, height, x-1, y, count, group)}
 	if (x < width-1)			{	//E
-						FloodFillAlgo(grid, width, height, x+1, y, count)}
+						FloodFillAlgo(grid, width, height, x+1, y, count, group)}
 
 	if (x > 0) && 		(y < height-1) 	{	//SW
-						FloodFillAlgo(grid, width, height, x-1, y+1, count)}
+						FloodFillAlgo(grid, width, height, x-1, y+1, count, group)}
 	if 			(y < height-1)	{	//S
-						FloodFillAlgo(grid, width, height, x, y+1, count)}
+						FloodFillAlgo(grid, width, height, x, y+1, count, group)}
 	if (x < width-1) &&	(y < height-1)	{	//SE
-						FloodFillAlgo(grid, width, height, x+1, y+1, count)}
+						FloodFillAlgo(grid, width, height, x+1, y+1, count, group)}
 
         } else {
-                return grid
+                return grid, group
         }
 
 //when does this return get called?
-	return grid
+	return grid, group
 }
 
 func DefineGroups(grid [][]bool) (int) {
 	var count int = 0
 	var width = 4		//len(grid)-1
 	var height = 4		//len(grid[0])-1
+	var groupvar []Group
+	var group Group
 	
 	for x := 0; x < width; x++ {
 		for y := 0; y < height; y++ {
 			if grid[x][y] == true {
-				grid = FloodFillAlgo(grid, width, height, x, y, count)
+				grid, group = FloodFillAlgo(grid, width, height, x, y, count, group)
 				count = count + 1
 				fmt.Println("New count:", count)
 				fmt.Println("group_new_temp:", group_new_temp)
+				fmt.Println("group", group)
+				groupvar = append(groupvar, group)
+				fmt.Println("groupvar", groupvar)
 			}
 		}
 	}
